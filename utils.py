@@ -37,3 +37,8 @@ def save_all(filename):
     return created
 
   save_file_to_drive(filename, filename)
+
+upload_file():
+  # upload a file to colab workspace
+  from google.colab import files
+  uploaded = files.upload()
