@@ -1,21 +1,26 @@
+import os
+
 # Authenticate and link to google drive
 def auth():
-  !apt-get install -y -qq software-properties-common python-software-properties module-init-tools
-  !add-apt-repository -y ppa:alessandro-strada/ppa 2>&1 > /dev/null
-  !apt-get update -qq 2>&1 > /dev/null
-  !apt-get -y install -qq google-drive-ocamlfuse fuse
+  os.system('!apt-get install -y -qq software-properties-common python-software-properties module-init-tools')
+  os.system('!add-apt-repository -y ppa:alessandro-strada/ppa 2>&1 > /dev/null')
+  os.system('!apt-get update -qq 2>&1 > /dev/null')
+  os.system('!apt-get -y install -qq google-drive-ocamlfuse fuse')
+  
   from google.colab import auth
   auth.authenticate_user()
+  
   from oauth2client.client import GoogleCredentials
   creds = GoogleCredentials.get_application_default()
+  
   import getpass
-  !google-drive-ocamlfuse -headless -id={creds.client_id} -secret={creds.client_secret} < /dev/null 2>&1 | grep URL
+  os.system('!google-drive-ocamlfuse -headless -id={creds.client_id} -secret={creds.client_secret} < /dev/null 2>&1 | grep URL')
   vcode = getpass.getpass()
-  !echo {vcode} | google-drive-ocamlfuse -headless -id={creds.client_id} -secret={creds.client_secret}
+  os.system('!echo {vcode} | google-drive-ocamlfuse -headless -id={creds.client_id} -secret={creds.client_secret}')
 
 def save_all(filename):
   # tar all files in current directory
-  !tar -cvf 'filename' .
+  os.system('!tar -cvf 'filename' .')
   
   # save to drive
   from googleapiclient.http import MediaFileUpload
